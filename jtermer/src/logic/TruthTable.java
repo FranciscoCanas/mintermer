@@ -6,7 +6,19 @@ import java.util.HashMap;
 
 /**
  * Represents a Truth Table.
- * Created by fcanas on 1/23/14.
+ * Contains public methods for mapping logical inputs to outputs and vice versa.
+ * Table values are represented by strings and characters.
+ * ie.  ABCDE|Out
+ *      00000|1
+ *      00001|0
+ *      ...
+ *      11111|0
+ *
+ * A Table can be instantiated by invoking the constructor with a String containing the
+ * desired output vector. See constructor doc for details.
+ *
+ *
+ * Created by francisco canas on 1/23/14.
  */
 public class TruthTable {
     String output;
