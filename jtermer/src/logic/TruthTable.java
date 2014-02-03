@@ -2,8 +2,6 @@ package logic;
 
 import com.sun.org.apache.xml.internal.utils.IntVector;
 import java.math.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 /**
  * Represents a Truth Table.

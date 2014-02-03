@@ -23,11 +23,29 @@ public class Tests {
             pass = testTableMapping(trial) ? pass : false;
             pass = testTableOrdering(trial) ? pass : false;
         }
+
+        /**
+         * Big test here:
+         */
+        String out = randomOutputVector(65536);
+        pass = testTableMapping(out) ? pass : false;
+        pass = testTableOrdering(out) ? pass : false;
+
         if (!pass) {
             System.out.println("Failed.");
         } else {
             System.out.println("Passed.");
         }
+    }
+
+    private static String randomOutputVector(int sizeOfOutputVector) {
+        StringBuilder sb = new StringBuilder(sizeOfOutputVector + 1);
+        Double rand;
+        for (int i=0; i < sizeOfOutputVector; i++) {
+            rand = (Math.random() * 100);
+            sb.append(Integer.toString(rand.intValue() % 2));
+        }
+        return sb.toString();
     }
 
     private static boolean testTableMapping(String outVector) {
@@ -54,7 +72,7 @@ public class Tests {
             String expected = makeRow(i,table.getWidth());
             String actual = table.getRow(i);
             String pass = expected.equals(actual) ? "PASS" : "FAIL";
-            System.out.println("[" + pass + "] " + expected + "->" +  actual);
+            System.out.println("[" + pass + "] " + i + ") " + expected + "->" +  actual);
             if (!expected.equals(actual)) {
                 System.out.println("Table Ordering Test Failed.");
                 return false;
