@@ -3,6 +3,7 @@ package logic;
 import com.sun.org.apache.xml.internal.utils.IntVector;
 import java.math.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Represents a Truth Table.
@@ -26,11 +27,8 @@ public class TruthTable {
     private Integer length;
     private Integer width;
     private Integer height;
-    private HashMap<Integer,String> table;
-
-
-    private static final char TRUE = '1';
-    private static final char FALSE = '0';
+    public static final char TRUE = '1';
+    public static final char FALSE = '0';
 
     /**
      * Given a string containing the truth table's desired output vector, it generates a
@@ -59,7 +57,6 @@ public class TruthTable {
         output = outputVector;
         initDimensions();
         initOutputVector();
-        initTable();
     }
 
     private void initDimensions() {
@@ -82,27 +79,6 @@ public class TruthTable {
         }
     }
 
-    private void initTable() {
-        table = new HashMap<Integer,String>();
-        for (int row=0; row < height; row++) {
-            table.put(row, makeRow(row) );
-        }
-    }
-
-    /**
-     * Since we create the Table ourselves we are sure that there is
-     * always a 1 to 1 mapping of key <-> value
-     * @param value
-     */
-    private int getKey(String value) {
-        for (int key : table.keySet()) {
-            if (table.get(key).equals(value)) {
-                return key;
-            }
-        }
-        return -1;
-    }
-
     private String makeRow(int rowNum) {
         StringBuilder sb = new StringBuilder();
         String vec = Integer.toBinaryString(rowNum);
@@ -117,19 +93,20 @@ public class TruthTable {
     }
 
     public String getRow(int num) {
-        if (table.containsKey(num)) {
-            return table.get(num);
+        if (num < height && num < outputVector.length) {
+            return makeRow(num);
         } else {
             return "";
         }
     }
 
     public boolean getOutput(String input) {
-        if (table.containsValue(input)) {
-            return (outputVector[getKey(input)]==TRUE);
+        int num = Integer.parseInt(input, 2);
+        if (num < height && num < outputVector.length) {
+            return outputVector[num]==TRUE;
+        } else {
+            return false;
         }
-        return false;
-
     }
 
     public Integer getLength() {
@@ -148,8 +125,8 @@ public class TruthTable {
         StringBuilder sb = new StringBuilder();
 
 
-        for (int key : table.keySet()) {
-            sb.append(table.get(key) +  "|" + outputVector[key] + System.lineSeparator());
+        for (int i=0; i< height; i++) {
+            sb.append(makeRow(i) +  "|" + outputVector[i] + System.lineSeparator());
         }
         return sb.toString();
     }
