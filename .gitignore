@@ -1,1 +1,3 @@
-./jtermer/.idea
+./jtermer/.idea/ 
+*.class
+*.pyc
